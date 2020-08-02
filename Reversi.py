@@ -1,9 +1,9 @@
-#--<Modules>--#
+#---<Modules>---#
 import pygame
 import os
 import sys
 from time import*
-#--<Modules>--#
+#---<Modules>---#
 
 
 #---------------------<Class: __init__>---------------------#
