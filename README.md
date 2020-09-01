@@ -9,10 +9,9 @@ I recommend using Version [3.7.6](https://www.python.org/downloads/release/pytho
 You can also use the newest stable python release (no guarantee that it will work)
 ## Setting up
 ### Getting sources & installing required modules
-Firstly, clone this repository with all the assets and code:
-<br/>
 <br/>
 **Linux:**
+Firstly, clone this repository with all the assets and code:
 ```
 git clone https://github.com/Plompii/Reversi.git
 ```
