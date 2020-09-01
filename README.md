@@ -20,6 +20,7 @@ git clone https://github.com/Plompii/Reversi.git
 **Windows**
 <br/>
 [Files](https://github.com/Plompii/Reversi/archive/main.zip)
+<br/>
 Now install the module `pygame`, the other modules used are already installed with Python's standard libary:
 ```
 pip install pygame
