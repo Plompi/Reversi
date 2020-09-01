@@ -3,7 +3,7 @@
 ## Setting up
 ### Requirements
 Python:
-I recommend using Version [`3.7.6`][https://www.python.org/downloads/release/python-376/] (the game was coded and tested in this version)
+I recommend using Version [3.7.6][https://www.python.org/downloads/release/python-376/] (the game was coded and tested in this version)
 but you can also use the newest stable python release (no guarantee that it will work)
 
 
