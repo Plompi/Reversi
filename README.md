@@ -33,7 +33,7 @@ pip install pygame
 pip install pygame
 ```
 
-### Using
+## Using
 - Navigate in the terminal to the folder with the files
 - run the Reversi.py file:
 ```python Reverso.py```
