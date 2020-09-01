@@ -1,5 +1,5 @@
 # Reversi
-:wave: Hey, this repository contains the reversi python file with an built-in AI, which is based on an algorithm.
+:wave: Hey, this repository contains the reversi game, written in python with an built-in AI
 
 ### Requirements
 **Python:**
