@@ -2,7 +2,7 @@
 :wave: Hey, this repository contains the reversi python file with an built-in AI, which is based on an algorithm.
 ## Setting up
 ### Requirements
-Python:
+**Python:**
 <br/>
 I recommend using Version [3.7.6](https://www.python.org/downloads/release/python-376/) (the game was coded and tested in this version)
 <br/>
