@@ -10,6 +10,7 @@ You can also use the newest stable python release (no guarantee that it will wor
 ## Setting up
 ### Getting sources & installing required modules
 <br/>
+
 **Linux:**
 Firstly, clone this repository with all the assets and code:
 ```
