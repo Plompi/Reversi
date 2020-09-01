@@ -12,12 +12,12 @@ You can also use the newest stable python release (no guarantee that it will wor
 Firstly, clone this repository with all the assets and code:
 <br/>
 <br/>
-**Linux:
+**Linux:**
 ```
 git clone https://github.com/Plompii/Reversi.git
 ```
 <br/>
-**Windows
+**Windows**
 <br/>
 [Files](https://github.com/Plompii/Reversi/archive/main.zip)
 Now install the module `pygame`, the other modules used are already installed with Python's standard libary:
