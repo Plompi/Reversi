@@ -13,7 +13,7 @@ You can also use the newest stable python release (no guarantee that it will wor
 
 **Linux:**
 
-Firstly, clone this repository with all the assets and code:
+1. Firstly, clone this repository with all the assets and code:
 ```
 git clone https://github.com/Plompii/Reversi.git
 ```
