@@ -458,7 +458,7 @@ class Game:
                                     self.__player = 1
                                     self.Points()
                                     break
-                        Reversi.Options()
+                        self.Options()
     #---------------------------------------<Class: listen>---------------------------------------#
 
 
