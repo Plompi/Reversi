@@ -5,7 +5,7 @@ import sys
 from time import*
 #---<Modules>---#
 
- 
+
 #---------------------<Class: __init__>---------------------#
 class Game:
     def __init__ (self):
