@@ -26,7 +26,7 @@ pip install pygame
 
 **Windows:**
 
-- Download this [Zip-File](https://github.com/Plompii/Reversi/archive/main.zip) and extract the folder
+- Download this [Zip-File](https://github.com/Plompii/Reversi/archive/master.zip) and extract the folder
 
 - Now install the module `pygame`, the other modules used are already installed with Python's standard libary:
 ```
