@@ -462,7 +462,7 @@ class Game:
     #---------------------------------------<Class: listen>---------------------------------------#
 
 
-#--<Main Program>--#
+#-<Main Program>-#
 Reversi = Game()
 Reversi.listen()
-#--<Main Program>--#
+#-<Main Program>-#
