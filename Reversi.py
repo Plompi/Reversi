@@ -1,7 +1,6 @@
 #---<Modules>---#
 import pygame
 import os
-#import sys
 from sys import executable, exit, argv
 from time import sleep
 #---<Modules>---#
