@@ -1,8 +1,9 @@
 #---<Modules>---#
 import pygame
 import os
-import sys
-from time import*
+#import sys
+from sys import executable, exit, argv
+from time import sleep
 #---<Modules>---#
 
 
@@ -321,12 +322,6 @@ class Game:
                 else:
                     AIWrite = "\nAI:" + str(self.__PointsWhite) + " | PLAYER:" + str(self.__PointsBlack)
                 File.write(AIWrite)
-                while True:
-                    for event in pygame.event.get():
-                        if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                            sys.exit(0)
-                        if event.type == pygame.KEYDOWN and event.key == pygame.K_r:
-                            os.execv(sys.executable, ['Reversi.py'] + sys.argv)
 
             #---------------------------------<AI's Turn>---------------------------------#
             if self.__player == 1 and len(self.__possible_moves) > 0:
@@ -376,10 +371,10 @@ class Game:
                     #----------<Quit>-----------#
 
                     if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                        sys.exit(0)
+                        exit(0)
 
                     if event.type == pygame.KEYDOWN and event.key == pygame.K_r:
-                        os.execv(sys.executable, ['Reversi.py'] + sys.argv)
+                        os.execv(executable, ['Reversi.py'] + argv)
 
                     #------------------------<Mouseclick>-------------------------#
                     if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
@@ -461,8 +456,8 @@ class Game:
                         self.Options()
     #---------------------------------------<Class: listen>---------------------------------------#
 
-
 #-<Main Program>-#
-Reversi = Game()
-Reversi.listen()
+if __name__ == "__main__":
+    Reversi = Game()
+    Reversi.listen()
 #-<Main Program>-#
