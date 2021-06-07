@@ -9,7 +9,6 @@ I recommend using Version [3.7.6](https://www.python.org/downloads/release/pytho
 You can also use the newest stable python release (no guarantee that it will work)
 
 ## Setting up (.exe)
-<br/>
 
 - Download the executable file [here](https://github.com/Plompi/Reversi/releases/latest/download/Reversi.exe) and run it
 
