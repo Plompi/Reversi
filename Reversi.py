@@ -304,7 +304,7 @@ class Game:
                 while True:
                     for playerevent in event.get():
                         if playerevent.type == KEYDOWN and playerevent.key == K_ESCAPE or playerevent.type ==QUIT:
-                            exit()
+                            sys.exit()
                         if playerevent.type == KEYDOWN and playerevent.key == K_r:
                             execv(sys.executable, ['Reversi.py'] + sys.argv)
 
@@ -351,7 +351,7 @@ class Game:
 
                     #----------<Quit>-----------#
                     if playerevent.type == KEYDOWN and playerevent.key == K_ESCAPE or playerevent.type ==QUIT:
-                        exit()
+                        sys.exit()
                     #----------<Quit>-----------#
 
                     if playerevent.type == KEYDOWN and playerevent.key == K_r:
