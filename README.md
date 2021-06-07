@@ -12,11 +12,8 @@ You can also use the newest stable python release (no guarantee that it will wor
 <br/>
 
 - Download the executable file [here](https://github.com/Plompi/Reversi/releases/latest/download/Reversi.exe) and run it
-<br/>
 
 ## Setting up (.py)
-
-### Use executable file
 
 ### Getting sources & installing required modules
 <br/>
