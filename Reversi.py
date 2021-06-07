@@ -1,8 +1,8 @@
 #---<Modules>---#
 from pygame import display,init, image, font, event, QUIT, KEYDOWN, K_ESCAPE, K_r, MOUSEBUTTONDOWN, mouse
-from os import execv, environ, stat
-from sys import executable, argv
+from os import execv, environ, stat, path
 from time import sleep
+import sys
 #---<Modules>---#
 
 #---------------------<Class: __init__>---------------------#
@@ -20,20 +20,25 @@ class Game:
         self.Board()
 #---------------------<Class: __init__>---------------------#
 
+    def resource_path(self,relative_path):
+        if hasattr(sys, '_MEIPASS'):
+            return path.join(sys._MEIPASS, relative_path)
+        return path.join(path.abspath('.'), relative_path)
+
     #--------------------------<Class: Board>--------------------------#
     def Board(self):
         init()
         Res = display.Info()
         environ['SDL_VIDEO_WINDOW_POS'] = '%i,%i' % ((Res.current_w/2)-425,(Res.current_h/2)-450)
         self.__screen = display.set_mode((850,900))
-        Icon = image.load("assets/Icon.png")
-        Board = image.load("assets/Board.png")
-        self.__White = image.load("assets/Player_White.png")
-        self.__Black = image.load("assets/Player_Black.png")
-        self.__Options = image.load("assets/Player_Possible_move.png")
-        self.__Erase = image.load("assets/Erase.png")
-        self.__TextEraser = image.load("assets/TextEraser.png")
-        self.__font = font.Font('assets/SF-Compact-Rounded-Regular.otf', 24)
+        Icon = image.load(self.resource_path("./assets/Icon.png"))
+        Board = image.load(self.resource_path("./assets/Board.png"))
+        self.__White = image.load(self.resource_path("assets/Player_White.png"))
+        self.__Black = image.load(self.resource_path("assets/Player_Black.png"))
+        self.__Options = image.load(self.resource_path("assets/Player_Possible_move.png"))
+        self.__Erase = image.load(self.resource_path("assets/Erase.png"))
+        self.__TextEraser = image.load(self.resource_path("assets/TextEraser.png"))
+        self.__font = font.Font(self.resource_path('assets/SF-Compact-Rounded-Regular.otf'),24)
         display.set_caption("Reversi")
         display.set_icon(Icon)
         self.__screen.blit(Board,(0,0))
@@ -287,8 +292,7 @@ class Game:
 
     #---------------------------------------<Class: listen>---------------------------------------#
     def listen(self):
-        Run = True
-        while Run:
+        while True:
 
             if len(self.__possible_moves) == 0:
                 File = open("PointStats.txt","a")
@@ -299,10 +303,10 @@ class Game:
                 File.write(AIWrite)
                 while True:
                     for playerevent in event.get():
-                        if playerevent.type == QUIT or playerevent.type == KEYDOWN and playerevent.key == K_ESCAPE:
-                            Run = False
+                        if playerevent.type == KEYDOWN and playerevent.key == K_ESCAPE or playerevent.type ==QUIT:
+                            exit()
                         if playerevent.type == KEYDOWN and playerevent.key == K_r:
-                            execv(executable, ['Reversi.py'] + argv)
+                            execv(sys.executable, ['Reversi.py'] + sys.argv)
 
             #---------------------------------<AI's Turn>---------------------------------#
             if self.__player == 1 and len(self.__possible_moves) > 0:
@@ -347,11 +351,11 @@ class Game:
 
                     #----------<Quit>-----------#
                     if playerevent.type == KEYDOWN and playerevent.key == K_ESCAPE or playerevent.type ==QUIT:
-                        Run = False
+                        exit()
                     #----------<Quit>-----------#
 
                     if playerevent.type == KEYDOWN and playerevent.key == K_r:
-                        execv(executable, ['Reversi.py'] + argv)
+                        execv(sys.executable, ['Reversi.py'] + sys.argv)
 
                     #------------------------<Mouseclick>-------------------------#
                     if playerevent.type == MOUSEBUTTONDOWN and playerevent.button == 1:
