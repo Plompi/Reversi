@@ -6,8 +6,13 @@
 <br/>
 I recommend using Version [3.7.6](https://www.python.org/downloads/release/python-376/) (the game was coded and tested in this version)
 <br/>
-but you can also use the newest stable python release
+You can also use the newest stable python release (no guarantee that it will work)
 ## Setting up
+### Use executable file
+<br/>
+
+- Download the executable file [here](https://github.com/Plompi/Reversi/releases/latest/download/Reversi.exe) and run it
+<br/>
 ### Getting sources & installing required modules
 <br/>
 
