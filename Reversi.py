@@ -385,17 +385,6 @@ class Game:
                             if i == self.__hit:
                                 position = self.__possible_moves.index(self.__hit)
                                 loops = (int(len(self.__flip[position])/2))*2
-                                if self.__player == "white":
-                                    for z in range(0,loops,2):
-                                        flip1 = self.__flip[position][z]
-                                        flip2 = self.__flip[position][z+1]
-                                        self.__Board[flip1][flip2][2] = 1
-                                        self.__screen.blit(self.__White,self.__Board[flip1][flip2][:2])
-                                    self.__screen.blit(self.__White,self.__Board[self.__hit[0]][self.__hit[1]][:2])
-                                    self.__Board[self.__hit[0]][self.__hit[1]][2] = 1
-                                    self.__player = "black"
-                                    self.Points()
-                                    break
                                 if self.__player == "black":
                                     for z in range(0,loops,2):
                                         flip1 = self.__flip[position][z]
