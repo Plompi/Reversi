@@ -1,10 +1,7 @@
-#---<Modules>---#
 from pygame import display,init, image, font, event, QUIT, KEYDOWN, K_ESCAPE, K_r, MOUSEBUTTONDOWN, mouse, time
 from os import execv, environ, stat, path
 import sys
-#---<Modules>---#
 
-#---------------------<Class: __init__>---------------------#
 class Game:
     def __init__ (self):
         self.__PointsBlack = 2
@@ -17,14 +14,12 @@ class Game:
             for x in range(30,830,100):
                 self.__Board[y].append([x,y*100+80,0])
         self.Board()
-#---------------------<Class: __init__>---------------------#
 
     def resource_path(self,relative_path):
         if hasattr(sys, '_MEIPASS'):
             return path.join(sys._MEIPASS, relative_path)
         return path.join(path.abspath('.'), relative_path)
-
-    #--------------------------<Class: Board>--------------------------#
+    
     def Board(self):
         init()
         Res = display.Info()
@@ -51,7 +46,6 @@ class Game:
         self.__Board[4][4][2] = 1
         self.Options()
         self.listen()
-    #--------------------------<Class: Board>--------------------------#
 
     def Options(self):
         try:
@@ -70,7 +64,6 @@ class Game:
                     self.__screen.blit(self.__Options,self.__Board[i[0]][i[1]][:2])
         display.flip()
 
-    #----------------------------------------<Class: possible_moves>----------------------------------------#
     def possible_moves(self):
         self.__possible_moves = []
         self.__flip = []
@@ -248,10 +241,7 @@ class Game:
 
         if self.__PointsBlack == 2 and self.__PointsWhite == 2 or self.__possible_moves == []:
             self.Points()
-    #----------------------------------------<Class: possible_moves>----------------------------------------#
 
-
-    #-------------------<Class: Points>-------------------#
     def Points(self):
         self.__PointsBlack = 0
         self.__PointsWhite = 0
@@ -284,10 +274,7 @@ class Game:
                 text = self.__font.render("WON",True,(255,255,255,255))
                 self.__screen.blit(text,(438,23))
         display.flip()
-    #-------------------<Class: Points>-------------------#
 
-
-    #---------------------------------------<Class: listen>---------------------------------------#
     def listen(self):
         while True:
 
@@ -343,36 +330,22 @@ class Game:
 
             if self.__player == "black" and len(self.__possible_moves) > 0:
                 for playerevent in event.get():
-
-                    #----------<Quit>-----------#
                     if playerevent.type == KEYDOWN and playerevent.key == K_ESCAPE or playerevent.type ==QUIT:
                         sys.exit()
-                    #----------<Quit>-----------#
-
                     if playerevent.type == KEYDOWN and playerevent.key == K_r:
                         execv(sys.executable, ['Reversi.py'] + sys.argv)
-
-                    #------------------------<Mouseclick>-------------------------#
                     if playerevent.type == MOUSEBUTTONDOWN and playerevent.button == 1:
                         x,y = mouse.get_pos()
-                    #------------------------<Mouseclick>-------------------------#
 
-
-                        #---------<determine Field on X-Coordination>---------#
                         for xs in range(25,825,100):
                             if x > xs and x < xs+100:
                                 newx = ((xs + xs+100)/2)-45
                                 break
 
-                        #---------<determine Field on X-Coordination>---------#
-
-
-                        #---------<determine Field on Y-Coordination>---------#
                         for ys in range(75,875,100):
                             if y > ys and y < ys+100:
                                 newy = ((ys + ys+100)/2)-45
                                 break
-                        #---------<determine Field on X-Coordination>---------#
 
                         coordinate = [newx,newy]
                         for m in range(8):
@@ -397,7 +370,6 @@ class Game:
                                     self.Points()
                                     break
                         self.Options()
-    #---------------------------------------<Class: listen>---------------------------------------#
 
 #-<Main Program>-#
 if __name__ == "__main__":
