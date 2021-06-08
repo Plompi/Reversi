@@ -359,28 +359,19 @@ class Game:
 
 
                         #---------<determine Field on X-Coordination>---------#
-                        min_number_x = 25
-                        max_number_x = 125
-                        for i in range(8):
-                            if x > min_number_x and x < max_number_x:
-                                newx = ((min_number_x + max_number_x)/2)-45
+                        for xs in range(25,825,100):
+                            if x > xs and x < xs+100:
+                                newx = ((xs + xs+100)/2)-45
                                 break
-                            else:
-                                min_number_x += 100
-                                max_number_x += 100
+
                         #---------<determine Field on X-Coordination>---------#
 
 
                         #---------<determine Field on Y-Coordination>---------#
-                        min_number_y = 75
-                        max_number_y = 175
-                        for i in range(8):
-                            if y > min_number_y and y < max_number_y:
-                                newy = ((min_number_y + max_number_y)/2)-45
+                        for ys in range(75,875,100):
+                            if y > ys and y < ys+100:
+                                newy = ((ys + ys+100)/2)-45
                                 break
-                            else:
-                                min_number_y += 100
-                                max_number_y += 100
                         #---------<determine Field on X-Coordination>---------#
 
                         coordinate = [newx,newy]
