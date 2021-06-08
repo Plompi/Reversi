@@ -1,7 +1,6 @@
 #---<Modules>---#
-from pygame import display,init, image, font, event, QUIT, KEYDOWN, K_ESCAPE, K_r, MOUSEBUTTONDOWN, mouse
+from pygame import display,init, image, font, event, QUIT, KEYDOWN, K_ESCAPE, K_r, MOUSEBUTTONDOWN, mouse, time
 from os import execv, environ, stat, path
-from time import sleep
 import sys
 #---<Modules>---#
 
@@ -11,7 +10,7 @@ class Game:
         self.__PointsBlack = 2
         self.__PointsWhite = 2
         self.__possible_moves = []
-        self.__player = 0
+        self.__player = "black"
         self.__Board = []
         for y in range(8):
             self.__Board.append([])
@@ -31,8 +30,8 @@ class Game:
         Res = display.Info()
         environ['SDL_VIDEO_WINDOW_POS'] = '%i,%i' % ((Res.current_w/2)-425,(Res.current_h/2)-450)
         self.__screen = display.set_mode((850,900))
-        Icon = image.load(self.resource_path("./assets/Icon.png"))
-        Board = image.load(self.resource_path("./assets/Board.png"))
+        self.__Icon = image.load(self.resource_path("assets/Icon.png"))
+        self.__Reversiboard = image.load(self.resource_path("assets/Board.png"))
         self.__White = image.load(self.resource_path("assets/Player_White.png"))
         self.__Black = image.load(self.resource_path("assets/Player_Black.png"))
         self.__Options = image.load(self.resource_path("assets/Player_Possible_move.png"))
@@ -40,8 +39,8 @@ class Game:
         self.__TextEraser = image.load(self.resource_path("assets/TextEraser.png"))
         self.__font = font.Font(self.resource_path('assets/SF-Compact-Rounded-Regular.otf'),24)
         display.set_caption("Reversi")
-        display.set_icon(Icon)
-        self.__screen.blit(Board,(0,0))
+        display.set_icon(self.__Icon)
+        self.__screen.blit(self.__Reversiboard,(0,0))
         self.__screen.blit(self.__White,self.__Board[3][3][:2])
         self.__screen.blit(self.__Black,self.__Board[3][4][:2])
         self.__screen.blit(self.__Black,self.__Board[4][3][:2])
@@ -50,7 +49,6 @@ class Game:
         self.__Board[3][4][2] = 2
         self.__Board[4][3][2] = 2
         self.__Board[4][4][2] = 1
-        display.flip()
         self.Options()
         self.listen()
     #--------------------------<Class: Board>--------------------------#
@@ -62,7 +60,6 @@ class Game:
                     if self.__hit in self.__possible_moves:
                         blit = self.__Board[i[0]][i[1]][:2]
                         self.__screen.blit(self.__Erase,(blit[0]-1,blit[1]-1))
-                        display.flip()
         except AttributeError:
             pass
         self.__backup = self.__possible_moves
@@ -71,17 +68,17 @@ class Game:
             if self.__possible_moves != []:
                 for i in self.__possible_moves:
                     self.__screen.blit(self.__Options,self.__Board[i[0]][i[1]][:2])
-                    display.flip()
+        display.flip()
 
     #----------------------------------------<Class: possible_moves>----------------------------------------#
     def possible_moves(self):
         self.__possible_moves = []
         self.__flip = []
 
-        if self.__player == 1:
+        if self.__player == "white":
             Color = 1
             OppositColor = 2
-        if self.__player == 0:
+        if self.__player == "black":
             Color = 2
             OppositColor = 1
 
@@ -295,12 +292,16 @@ class Game:
         while True:
 
             if len(self.__possible_moves) == 0:
-                File = open("PointStats.txt","a")
-                if stat("PointStats.txt").st_size == 0:
-                    AIWrite = "AI:" + str(self.__PointsWhite) + " | PLAYER:" + str(self.__PointsBlack)
-                else:
-                    AIWrite = "\nAI:" + str(self.__PointsWhite) + " | PLAYER:" + str(self.__PointsBlack)
-                File.write(AIWrite)
+
+                #----------------------------optional--------------------------------------------------#
+                #File = open("PointStats.txt","a")
+                #if stat("PointStats.txt").st_size == 0:
+                    #AIWrite = "AI:" + str(self.__PointsWhite) + " | PLAYER:" + str(self.__PointsBlack)
+                #else:
+                    #AIWrite = "\nAI:" + str(self.__PointsWhite) + " | PLAYER:" + str(self.__PointsBlack)
+                #File.write(AIWrite)
+                #----------------------------optional--------------------------------------------------#
+
                 while True:
                     for playerevent in event.get():
                         if playerevent.type == KEYDOWN and playerevent.key == K_ESCAPE or playerevent.type ==QUIT:
@@ -309,7 +310,7 @@ class Game:
                             execv(sys.executable, ['Reversi.py'] + sys.argv)
 
             #---------------------------------<AI's Turn>---------------------------------#
-            if self.__player == 1 and len(self.__possible_moves) > 0:
+            if self.__player == "white" and len(self.__possible_moves) > 0:
                 bestMove = 1
                 index = 0
                 for i in self.__flip:
@@ -317,36 +318,30 @@ class Game:
                         bestMove = len(i)
                         index = self.__flip.index(i)
 
-                sleep(0.25)
+                time.wait(400)
                 first = self.__possible_moves[index][0]
                 second = self.__possible_moves[index][1]
                 self.__hit = [first,second]
 
-                #self.possible_moves() #Auch hier habe ich beobachten können,dass das gleiche ergebnis auch ohne diese zeile rauskommt
                 for i in self.__possible_moves:
                     if i == self.__hit:
                         position = self.__possible_moves.index(self.__hit)
-                        loops = int(len(self.__flip[position])/2)
-                        if self.__player == 1:
-                            position1 = 0
-                            position2 = 1
-                            for i in range(loops):
-                                flip1 = self.__flip[position][position1]
-                                flip2 = self.__flip[position][position2]
+                        loops = (int(len(self.__flip[position])/2))*2
+                        if self.__player == "white":
+                            for z in range(0,loops,2):
+                                flip1 = self.__flip[position][z]
+                                flip2 = self.__flip[position][z+1]
                                 self.__Board[flip1][flip2][2] = 1
                                 self.__screen.blit(self.__White,self.__Board[flip1][flip2][:2])
-                                position1 += 2
-                                position2 += 2
                             self.__screen.blit(self.__White,self.__Board[first][second][:2])
                             self.__Board[first][second][2] = 1
-                            display.flip()
-                            self.__player = 0
+                            self.__player = "black"
                             self.Points()
                             break
                 self.Options()
             #---------------------------------<AI's Turn>---------------------------------#
 
-            if self.__player == 0 and len(self.__possible_moves) > 0:
+            if self.__player == "black" and len(self.__possible_moves) > 0:
                 for playerevent in event.get():
 
                     #----------<Quit>-----------#
@@ -393,45 +388,32 @@ class Game:
                             for n in range(8):
                                 if self.__Board[m][n][:2] == coordinate:
                                     self.__hit = [m,n]
-                                    m1 = m
-                                    n1 = n
                                     break
 
-                        #self.possible_moves()   #Das hier habe ich erstmal rausgenommen, da bei kurzen ausprobieren das gleiche Ergebnis auch ohne erzielt wurde, es muss jedoch weiter getestet werden
                         for i in self.__possible_moves:
                             if i == self.__hit:
                                 position = self.__possible_moves.index(self.__hit)
-                                loops = int(len(self.__flip[position])/2)
-                                if self.__player == 1:
-                                    position1 = 0
-                                    position2 = 1
-                                    for i in range(loops):
-                                        flip1 = self.__flip[position][position1]
-                                        flip2 = self.__flip[position][position2]
+                                loops = (int(len(self.__flip[position])/2))*2
+                                if self.__player == "white":
+                                    for z in range(0,loops,2):
+                                        flip1 = self.__flip[position][z]
+                                        flip2 = self.__flip[position][z+1]
                                         self.__Board[flip1][flip2][2] = 1
                                         self.__screen.blit(self.__White,self.__Board[flip1][flip2][:2])
-                                        position1 += 2
-                                        position2 += 2
-                                    self.__screen.blit(self.__White,self.__Board[m1][n1][:2])
-                                    self.__Board[m1][n1][2] = 1
-                                    display.flip()
-                                    self.__player = 0
+                                    self.__screen.blit(self.__White,self.__Board[self.__hit[0]][self.__hit[1]][:2])
+                                    self.__Board[self.__hit[0]][self.__hit[1]][2] = 1
+                                    self.__player = "black"
                                     self.Points()
                                     break
-                                if self.__player == 0:
-                                    position1 = 0
-                                    position2 = 1
-                                    for i in range(loops):
-                                        flip1 = self.__flip[position][position1]
-                                        flip2 = self.__flip[position][position2]
+                                if self.__player == "black":
+                                    for z in range(0,loops,2):
+                                        flip1 = self.__flip[position][z]
+                                        flip2 = self.__flip[position][z+1]
                                         self.__Board[flip1][flip2][2] = 2
                                         self.__screen.blit(self.__Black,self.__Board[flip1][flip2][:2])
-                                        position1 += 2
-                                        position2 += 2
-                                    self.__screen.blit(self.__Black,self.__Board[m1][n1][:2])
-                                    self.__Board[m1][n1][2] = 2
-                                    display.flip()
-                                    self.__player = 1
+                                    self.__screen.blit(self.__Black,self.__Board[self.__hit[0]][self.__hit[1]][:2])
+                                    self.__Board[self.__hit[0]][self.__hit[1]][2] = 2
+                                    self.__player = "white"
                                     self.Points()
                                     break
                         self.Options()
