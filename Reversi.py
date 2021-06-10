@@ -1,4 +1,4 @@
-from pygame import display,init, image, font, event, QUIT, KEYDOWN, K_ESCAPE, K_r, MOUSEBUTTONDOWN, mouse, time
+from pygame import display,init, image, font, event, QUIT, KEYDOWN, K_ESCAPE, K_r,K_p, MOUSEBUTTONDOWN, mouse, time
 from os import execv, environ, stat, path
 import sys
 
@@ -238,7 +238,7 @@ class Game:
                                 break
                             if self.__Board[y1][x1][2] == OppositColor:
                                 List.extend([y1,x1])
-
+                                
         if self.__PointsBlack == 2 and self.__PointsWhite == 2 or self.__possible_moves == []:
             self.Points()
 
@@ -255,7 +255,7 @@ class Game:
         if self.__PointsWhite >= 2 or self.__PointsBlack >= 2:
             self.__screen.blit(self.__TextEraser,(385,23))
             self.__screen.blit(self.__TextEraser,(435,23))
-            display.flip()
+
         if self.__PointsBlack + self.__PointsWhite != 64 and self.__possible_moves != []:
             text = self.__font.render(str(self.__PointsBlack), True, (255,255,255,255))
             self.__screen.blit(text,(412-text.get_rect()[2],23))
@@ -263,38 +263,34 @@ class Game:
             self.__screen.blit(text,(438,23))
 
         if self.__PointsBlack + self.__PointsWhite == 64 or self.__possible_moves == []:
+            won = self.__font.render("WON",True,(255,255,255,255))
+            lost = self.__font.render("LOST",True,(255,255,255,255))
             if self.__PointsBlack > self.__PointsWhite:
-                text = self.__font.render("WON",True,(255,255,255,255))
-                self.__screen.blit(text,(362,23))
-                text = self.__font.render("LOST",True,(255,255,255,255))
-                self.__screen.blit(text,(438,23))
+                self.__screen.blit(won,(362,23))
+                self.__screen.blit(lost,(438,23))
             else:
-                text = self.__font.render("LOST",True,(255,255,255,255))
-                self.__screen.blit(text,(359,23))
-                text = self.__font.render("WON",True,(255,255,255,255))
-                self.__screen.blit(text,(438,23))
+                self.__screen.blit(lost,(359,23))
+                self.__screen.blit(won,(438,23))
         display.flip()
 
     def listen(self):
         while True:
 
             if len(self.__possible_moves) == 0:
-
-                #----------------------------optional--------------------------------------------------#
-                #File = open("PointStats.txt","a")
-                #if stat("PointStats.txt").st_size == 0:
-                    #AIWrite = "AI:" + str(self.__PointsWhite) + " | PLAYER:" + str(self.__PointsBlack)
-                #else:
-                    #AIWrite = "\nAI:" + str(self.__PointsWhite) + " | PLAYER:" + str(self.__PointsBlack)
-                #File.write(AIWrite)
-                #----------------------------optional--------------------------------------------------#
-
                 while True:
                     for playerevent in event.get():
                         if playerevent.type == KEYDOWN and playerevent.key == K_ESCAPE or playerevent.type ==QUIT:
                             sys.exit()
                         if playerevent.type == KEYDOWN and playerevent.key == K_r:
                             execv(sys.executable, ['Reversi.py'] + sys.argv)
+                        if playerevent.type == KEYDOWN and playerevent.key == K_p:
+                            File = open("PointStats.txt","a")
+                            if stat("PointStats.txt").st_size == 0:
+                                AIWrite = "AI:" + str(self.__PointsWhite) + " | PLAYER:" + str(self.__PointsBlack)
+                            else:
+                                AIWrite = "\nAI:" + str(self.__PointsWhite) + " | PLAYER:" + str(self.__PointsBlack)
+                            File.write(AIWrite)
+                            File.close()
 
             #---------------------------------<AI's Turn>---------------------------------#
             if self.__player == "white" and len(self.__possible_moves) > 0:
@@ -313,7 +309,7 @@ class Game:
                 for i in self.__possible_moves:
                     if i == self.__hit:
                         position = self.__possible_moves.index(self.__hit)
-                        loops = (int(len(self.__flip[position])/2))*2
+                        loops = len(self.__flip[position])
                         if self.__player == "white":
                             for z in range(0,loops,2):
                                 flip1 = self.__flip[position][z]
@@ -357,7 +353,7 @@ class Game:
                         for i in self.__possible_moves:
                             if i == self.__hit:
                                 position = self.__possible_moves.index(self.__hit)
-                                loops = (int(len(self.__flip[position])/2))*2
+                                loops = len(self.__flip[position])
                                 if self.__player == "black":
                                     for z in range(0,loops,2):
                                         flip1 = self.__flip[position][z]
