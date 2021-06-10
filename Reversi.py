@@ -4,11 +4,9 @@ import sys
 
 class Game:
     def __init__ (self):
-        self.__PointsBlack = 2
-        self.__PointsWhite = 2
-        self.__possible_moves = []
+        self.__PointsBlack,self.__PointsWhite = 2,2
+        self.__possible_moves,self.__Board = [],[]
         self.__player = "black"
-        self.__Board = []
         for y in range(8):
             self.__Board.append([])
             for x in range(30,830,100):
@@ -150,7 +148,7 @@ class Game:
                         List = [y, x + 1]
                         for i in range(2,10):
                             x1 = x + i
-                            if y1 < 0 or x1 > 7:
+                            if y < 0 or x1 > 7:
                                 break
                             if self.__Board[y][x1][2] == 0:
                                 if [y,x1] in self.__possible_moves:
@@ -280,8 +278,7 @@ class Game:
                         index = self.__flip.index(i)
 
                 time.wait(400)
-                first = self.__possible_moves[index][0]
-                second = self.__possible_moves[index][1]
+                first,second = self.__possible_moves[index][0],self.__possible_moves[index][1]
                 self.__hit = [first,second]
 
                 for i in self.__possible_moves:
@@ -311,15 +308,15 @@ class Game:
 
                         for xs in range(25,825,100):
                             if x > xs and x < xs+100:
-                                newx = ((xs + xs+100)/2)-45
+                                self.__newx = ((xs + xs+100)/2)-45
                                 break
 
                         for ys in range(75,875,100):
                             if y > ys and y < ys+100:
-                                newy = ((ys + ys+100)/2)-45
+                                self.__newy = ((ys + ys+100)/2)-45
                                 break
 
-                        coordinate = [newx,newy]
+                        coordinate = [self.__newx,self.__newy]
                         for m in range(8):
                             for n in range(8):
                                 if self.__Board[m][n][:2] == coordinate:
