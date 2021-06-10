@@ -43,18 +43,16 @@ class Game:
     def Options(self):
         try:
             for i in self.__possible_moves:
-                if i != self.__hit:
-                    if self.__hit in self.__possible_moves:
-                        blit = self.__Board[i[0]][i[1]][:2]
-                        self.__screen.blit(self.__Erase,(blit[0]-1,blit[1]-1))
+                if i != self.__hit and self.__hit in self.__possible_moves:
+                    blit = self.__Board[i[0]][i[1]][:2]
+                    self.__screen.blit(self.__Erase,(blit[0]-1,blit[1]-1))
         except AttributeError:
             pass
         self.__backup = self.__possible_moves
         self.possible_moves()
-        if self.__backup != self.__possible_moves:
-            if self.__possible_moves != []:
-                for i in self.__possible_moves:
-                    self.__screen.blit(self.__Options,self.__Board[i[0]][i[1]][:2])
+        if self.__backup != self.__possible_moves and self.__possible_moves != []:
+            for i in self.__possible_moves:
+                self.__screen.blit(self.__Options,self.__Board[i[0]][i[1]][:2])
         display.flip()
 
     def possible_moves(self):
@@ -225,8 +223,7 @@ class Game:
             self.Points()
 
     def Points(self):
-        self.__PointsBlack = 0
-        self.__PointsWhite = 0
+        self.__PointsBlack,self.__PointsWhite = 0,0
         for r in range(8):
             for s in range(8):
                 if self.__Board[r][s][2] == 1:
@@ -262,25 +259,20 @@ class Game:
                         if playerevent.type == KEYDOWN and playerevent.key == K_p:
                             File = open("PointStats.txt","a")
                             if stat("PointStats.txt").st_size == 0:
-                                AIWrite = "AI:" + str(self.__PointsWhite) + " | PLAYER:" + str(self.__PointsBlack)
+                                File.write("AI:" + str(self.__PointsWhite) + " | PLAYER:" + str(self.__PointsBlack))
                             else:
-                                AIWrite = "\nAI:" + str(self.__PointsWhite) + " | PLAYER:" + str(self.__PointsBlack)
-                            File.write(AIWrite)
+                                File.write("\nAI:" + str(self.__PointsWhite) + " | PLAYER:" + str(self.__PointsBlack))
                             File.close()
 
             #---------------------------------<AI's Turn>---------------------------------#
             if self.__player == "white" and len(self.__possible_moves) > 0:
                 bestMove = 1
-                index = 0
                 for i in self.__flip:
                     if len(i) > bestMove:
-                        bestMove = len(i)
-                        index = self.__flip.index(i)
+                        bestMove,index = len(i),self.__flip.index(i)
 
                 time.wait(400)
-                first,second = self.__possible_moves[index][0],self.__possible_moves[index][1]
-                self.__hit = [first,second]
-
+                self.__hit = [self.__possible_moves[index][0],self.__possible_moves[index][1]]
                 for i in self.__possible_moves:
                     if i == self.__hit:
                         position = self.__possible_moves.index(self.__hit)
@@ -289,9 +281,8 @@ class Game:
                                 flip1,flip2 = self.__flip[position][z],self.__flip[position][z+1]
                                 self.__Board[flip1][flip2][2] = 1
                                 self.__screen.blit(self.__White,self.__Board[flip1][flip2][:2])
-                            self.__screen.blit(self.__White,self.__Board[first][second][:2])
-                            self.__Board[first][second][2] = 1
-                            self.__player = "black"
+                            self.__screen.blit(self.__White,self.__Board[self.__hit[0]][self.__hit[1]][:2])
+                            self.__Board[self.__hit[0]][self.__hit[1]][2],self.__player = 1,"black"
                             self.Points()
                             break
                 self.Options()
@@ -332,8 +323,7 @@ class Game:
                                         self.__Board[flip1][flip2][2] = 2
                                         self.__screen.blit(self.__Black,self.__Board[flip1][flip2][:2])
                                     self.__screen.blit(self.__Black,self.__Board[self.__hit[0]][self.__hit[1]][:2])
-                                    self.__Board[self.__hit[0]][self.__hit[1]][2] = 2
-                                    self.__player = "white"
+                                    self.__Board[self.__hit[0]][self.__hit[1]][2],self.__player = 2,"white"
                                     self.Points()
                                     break
                         self.Options()
