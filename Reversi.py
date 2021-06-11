@@ -1,4 +1,4 @@
-from pygame import display,init, image, font, event, QUIT, KEYDOWN, K_ESCAPE, K_r,K_p, MOUSEBUTTONDOWN, mouse, time
+from pygame import display,init, image, font, event, QUIT, KEYDOWN, K_ESCAPE, K_r,K_p, MOUSEBUTTONDOWN, mouse, time, draw, Rect
 from os import execv, environ, stat, path
 import sys
 
@@ -28,8 +28,6 @@ class Game:
         self.__White = image.load(self.resource_path("assets/Player_White.png"))
         self.__Black = image.load(self.resource_path("assets/Player_Black.png"))
         self.__Options = image.load(self.resource_path("assets/Player_Possible_move.png"))
-        self.__Erase = image.load(self.resource_path("assets/Erase.png"))
-        self.__TextEraser = image.load(self.resource_path("assets/TextEraser.png"))
         self.__font = font.Font(self.resource_path('assets/SF-Compact-Rounded-Regular.otf'),24)
         self.__won = self.__font.render("WON",True,(255,255,255,255))
         self.__lost = self.__font.render("LOST",True,(255,255,255,255))
@@ -45,7 +43,8 @@ class Game:
             for i in self.__possible_moves:
                 if i != self.__hit and self.__hit in self.__possible_moves:
                     blit = self.__Board[i[0]][i[1]][:2]
-                    self.__screen.blit(self.__Erase,(blit[0]-1,blit[1]-1))
+                    draw.rect(self.__screen, (41,104,33), Rect(blit[0]-1, blit[1]-1, 92, 92))
+
         except AttributeError:
             pass
         self.__backup = self.__possible_moves
@@ -232,7 +231,7 @@ class Game:
                     self.__PointsBlack += 1
 
         if self.__PointsWhite >= 2 or self.__PointsBlack >= 2:
-            self.__screen.blits([(self.__TextEraser,(385,23)),(self.__TextEraser,(435,23))])
+            draw.rect(self.__screen, (32,32,32), Rect(385, 23, 30, 30)), draw.rect(self.__screen, (32,32,32), Rect(435, 23, 30, 30))
 
         if self.__PointsBlack + self.__PointsWhite != 64 and self.__possible_moves != []:
             textPointsBlack = self.__font.render(str(self.__PointsBlack), True, (255,255,255,255))
@@ -296,7 +295,7 @@ class Game:
                         execv(sys.executable, ['Reversi.py'] + sys.argv)
                     if playerevent.type == MOUSEBUTTONDOWN and playerevent.button == 1:
                         x,y = mouse.get_pos()
-                        self.__newx, self.__newy = 0,0
+                        self.__newx, self.__newy = None,None
                         
                         for xs in range(25,825,100):
                             if x > xs and x < xs+100:
@@ -308,7 +307,7 @@ class Game:
                                 self.__newy = ys //100
                                 break
 
-                        if self.__newx == 0 or self.__newy == 0:
+                        if self.__newx == None or self.__newy == None:
                             break
                         self.__hit = [self.__newy,self.__newx]
 
