@@ -296,23 +296,21 @@ class Game:
                         execv(sys.executable, ['Reversi.py'] + sys.argv)
                     if playerevent.type == MOUSEBUTTONDOWN and playerevent.button == 1:
                         x,y = mouse.get_pos()
-
+                        self.__newx, self.__newy = 0,0
+                        
                         for xs in range(25,825,100):
                             if x > xs and x < xs+100:
-                                self.__newx = ((xs + xs+100)/2)-45
+                                self.__newx = xs //100
                                 break
 
                         for ys in range(75,875,100):
                             if y > ys and y < ys+100:
-                                self.__newy = ((ys + ys+100)/2)-45
+                                self.__newy = ys //100
                                 break
 
-                        coordinate = [self.__newx,self.__newy]
-                        for m in range(8):
-                            for n in range(8):
-                                if self.__Board[m][n][:2] == coordinate:
-                                    self.__hit = [m,n]
-                                    break
+                        if self.__newx == 0 or self.__newy == 0:
+                            break
+                        self.__hit = [self.__newy,self.__newx]
 
                         for i in self.__possible_moves:
                             if i == self.__hit:
