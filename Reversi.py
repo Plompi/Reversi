@@ -23,7 +23,7 @@ class Game:
         Res = display.Info()
         environ['SDL_VIDEO_WINDOW_POS'] = '%i,%i' % ((Res.current_w/2)-425,(Res.current_h/2)-450)
         self.__screen = display.set_mode((850,900))
-        self.__Icon = image.load(self.resource_path("assets/Icon.png"))
+        self.__Icon = image.load(self.resource_path("assets/Icon.ico"))
         self.__Reversiboard = image.load(self.resource_path("assets/Board.png"))
         self.__White = image.load(self.resource_path("assets/Player_White.png"))
         self.__Black = image.load(self.resource_path("assets/Player_Black.png"))
