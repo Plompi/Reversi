@@ -64,15 +64,13 @@ class Game:
                         List = [y - 1, x - 1]
                         for i in range(2,10):
                             y1,x1 = y - i, x - i
-                            if y1 < 0 or x1 < 0:
+                            if y1 < 0 or x1 < 0 or self.__Board[y1][x1][2] == Color:
                                 break
                             if self.__Board[y1][x1][2] == 0:
                                 if [y1,x1] in self.__possible_moves:
                                     self.__flip[self.__possible_moves.index([y1,x1])].extend(List)
-                                if [y1,x1] not in self.__possible_moves:
+                                else:
                                     self.__possible_moves.append([y1,x1]),self.__flip.append(List)
-                                break
-                            if self.__Board[y1][x1][2] == Color:
                                 break
                             if self.__Board[y1][x1][2] == OppositColor:
                                 List.extend([y1,x1])
@@ -80,15 +78,13 @@ class Game:
                         List = [y - 1, x]
                         for i in range(2,10):
                             y1 = y - i
-                            if y1 < 0 or x < 0:
+                            if y1 < 0 or x < 0 or self.__Board[y1][x][2] == Color:
                                 break
                             if self.__Board[y1][x][2] == 0:
                                 if [y1,x] in self.__possible_moves:
                                     self.__flip[self.__possible_moves.index([y1,x])].extend(List)
-                                if [y1,x] not in self.__possible_moves:
+                                else:
                                     self.__possible_moves.append([y1,x]),self.__flip.append(List)
-                                break
-                            if self.__Board[y1][x][2] == Color:
                                 break
                             if self.__Board[y1][x][2] == OppositColor:
                                 List.extend([y1,x])
@@ -96,15 +92,13 @@ class Game:
                         List = [y - 1, x + 1]
                         for i in range(2,10):
                             y1,x1 = y - i, x + i
-                            if y1 < 0 or x1 > 7:
+                            if y1 < 0 or x1 > 7 or self.__Board[y1][x1][2] == Color:
                                 break
                             if self.__Board[y1][x1][2] == 0:
                                 if [y1,x1] in self.__possible_moves:
                                     self.__flip[self.__possible_moves.index([y1,x1])].extend(List)
-                                if [y1,x1] not in self.__possible_moves:
+                                else:
                                     self.__possible_moves.append([y1,x1]),self.__flip.append(List)
-                                break
-                            if self.__Board[y1][x1][2] == Color:
                                 break
                             if self.__Board[y1][x1][2] == OppositColor:
                                 List.extend([y1,x1])
@@ -112,15 +106,13 @@ class Game:
                         List = [y, x - 1]
                         for i in range(2,10):
                             x1 = x - i
-                            if y < 0 or x1 < 0:
+                            if y < 0 or x1 < 0 or self.__Board[y][x1][2] == Color:
                                 break
                             if self.__Board[y][x1][2] == 0:
                                 if [y,x1] in self.__possible_moves:
                                     self.__flip[self.__possible_moves.index([y,x1])].extend(List)
-                                if [y,x1] not in self.__possible_moves:
+                                else:
                                     self.__possible_moves.append([y,x1]),self.__flip.append(List)
-                                break
-                            if self.__Board[y][x1][2] == Color:
                                 break
                             if self.__Board[y][x1][2] == OppositColor:
                                 List.extend([y,x1])
@@ -128,15 +120,13 @@ class Game:
                         List = [y, x + 1]
                         for i in range(2,10):
                             x1 = x + i
-                            if y < 0 or x1 > 7:
+                            if y < 0 or x1 > 7 or self.__Board[y][x1][2] == Color:
                                 break
                             if self.__Board[y][x1][2] == 0:
                                 if [y,x1] in self.__possible_moves:
                                     self.__flip[self.__possible_moves.index([y,x1])].extend(List)
-                                if [y,x1] not in self.__possible_moves:
+                                else:
                                     self.__possible_moves.append([y,x1]),self.__flip.append(List)
-                                break
-                            if self.__Board[y][x1][2] == Color:
                                 break
                             if self.__Board[y][x1][2] == OppositColor:
                                 List.extend([y,x1])
@@ -144,15 +134,13 @@ class Game:
                         List = [y + 1, x - 1]
                         for i in range(2,10):
                             y1,x1 = y + i, x - i
-                            if y1 > 7 or x1 < 0:
+                            if y1 > 7 or x1 < 0 or self.__Board[y1][x1][2] == Color:
                                 break
                             if self.__Board[y1][x1][2] == 0:
                                 if [y1,x1] in self.__possible_moves:
                                     self.__flip[self.__possible_moves.index([y1,x1])].extend(List)
-                                if [y1,x1] not in self.__possible_moves:
+                                else:
                                     self.__possible_moves.append([y1,x1]),self.__flip.append(List)
-                                break
-                            if self.__Board[y1][x1][2] == Color:
                                 break
                             if self.__Board[y1][x1][2] == OppositColor:
                                 List.extend([y1,x1])
@@ -160,15 +148,13 @@ class Game:
                         List = [y + 1,x]
                         for i in range(2,10):
                             y1 = y + i
-                            if y1 > 7 or x < 0:
+                            if y1 > 7 or x < 0 or self.__Board[y1][x][2] == Color:
                                 break
                             if self.__Board[y1][x][2] == 0:
                                 if [y1,x] in self.__possible_moves:
                                     self.__flip[self.__possible_moves.index([y1,x])].extend(List)
-                                if [y1,x] not in self.__possible_moves:
+                                else:
                                     self.__possible_moves.append([y1,x]),self.__flip.append(List)
-                                break
-                            if self.__Board[y1][x][2] == Color:
                                 break
                             if self.__Board[y1][x][2] == OppositColor:
                                 List.extend([y1,x])
@@ -176,15 +162,13 @@ class Game:
                         List = [y + 1,x + 1]
                         for i in range(2,10):
                             y1,x1 = y + i, x + i
-                            if y1 > 7 or x1 > 7:
+                            if y1 > 7 or x1 > 7 or self.__Board[y1][x1][2] == Color:
                                 break
                             if self.__Board[y1][x1][2] == 0:
                                 if [y1,x1] in self.__possible_moves:
                                     self.__flip[self.__possible_moves.index([y1,x1])].extend(List)
-                                if [y1,x1] not in self.__possible_moves:
+                                else:
                                     self.__possible_moves.append([y1,x1]),self.__flip.append(List)
-                                break
-                            if self.__Board[y1][x1][2] == Color:
                                 break
                             if self.__Board[y1][x1][2] == OppositColor:
                                 List.extend([y1,x1])
