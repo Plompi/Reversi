@@ -68,13 +68,10 @@ class Game:
                                 break
                             if self.__Board[y1][x1][2] == 0:
                                 if [y1,x1] in self.__possible_moves:
-                                    pos = self.__possible_moves.index([y1,x1])
-                                    self.__flip[pos].extend(List)
-                                    break
+                                    self.__flip[self.__possible_moves.index([y1,x1])].extend(List)
                                 if [y1,x1] not in self.__possible_moves:
-                                    self.__possible_moves.append([y1,x1])
-                                    self.__flip.append(List)
-                                    break
+                                    self.__possible_moves.append([y1,x1]),self.__flip.append(List)
+                                break
                             if self.__Board[y1][x1][2] == Color:
                                 break
                             if self.__Board[y1][x1][2] == OppositColor:
@@ -87,13 +84,10 @@ class Game:
                                 break
                             if self.__Board[y1][x][2] == 0:
                                 if [y1,x] in self.__possible_moves:
-                                    pos = self.__possible_moves.index([y1,x])
-                                    self.__flip[pos].extend(List)
-                                    break
+                                    self.__flip[self.__possible_moves.index([y1,x])].extend(List)
                                 if [y1,x] not in self.__possible_moves:
-                                    self.__possible_moves.append([y1,x])
-                                    self.__flip.append(List)
-                                    break
+                                    self.__possible_moves.append([y1,x]),self.__flip.append(List)
+                                break
                             if self.__Board[y1][x][2] == Color:
                                 break
                             if self.__Board[y1][x][2] == OppositColor:
@@ -106,13 +100,10 @@ class Game:
                                 break
                             if self.__Board[y1][x1][2] == 0:
                                 if [y1,x1] in self.__possible_moves:
-                                    pos = self.__possible_moves.index([y1,x1])
-                                    self.__flip[pos].extend(List)
-                                    break
+                                    self.__flip[self.__possible_moves.index([y1,x1])].extend(List)
                                 if [y1,x1] not in self.__possible_moves:
-                                    self.__possible_moves.append([y1,x1])
-                                    self.__flip.append(List)
-                                    break
+                                    self.__possible_moves.append([y1,x1]),self.__flip.append(List)
+                                break
                             if self.__Board[y1][x1][2] == Color:
                                 break
                             if self.__Board[y1][x1][2] == OppositColor:
@@ -125,13 +116,10 @@ class Game:
                                 break
                             if self.__Board[y][x1][2] == 0:
                                 if [y,x1] in self.__possible_moves:
-                                    pos = self.__possible_moves.index([y,x1])
-                                    self.__flip[pos].extend(List)
-                                    break
+                                    self.__flip[self.__possible_moves.index([y,x1])].extend(List)
                                 if [y,x1] not in self.__possible_moves:
-                                    self.__possible_moves.append([y,x1])
-                                    self.__flip.append(List)
-                                    break
+                                    self.__possible_moves.append([y,x1]),self.__flip.append(List)
+                                break
                             if self.__Board[y][x1][2] == Color:
                                 break
                             if self.__Board[y][x1][2] == OppositColor:
@@ -144,13 +132,10 @@ class Game:
                                 break
                             if self.__Board[y][x1][2] == 0:
                                 if [y,x1] in self.__possible_moves:
-                                    pos = self.__possible_moves.index([y,x1])
-                                    self.__flip[pos].extend(List)
-                                    break
+                                    self.__flip[self.__possible_moves.index([y,x1])].extend(List)
                                 if [y,x1] not in self.__possible_moves:
-                                    self.__possible_moves.append([y,x1])
-                                    self.__flip.append(List)
-                                    break
+                                    self.__possible_moves.append([y,x1]),self.__flip.append(List)
+                                break
                             if self.__Board[y][x1][2] == Color:
                                 break
                             if self.__Board[y][x1][2] == OppositColor:
@@ -163,13 +148,10 @@ class Game:
                                 break
                             if self.__Board[y1][x1][2] == 0:
                                 if [y1,x1] in self.__possible_moves:
-                                    pos = self.__possible_moves.index([y1,x1])
-                                    self.__flip[pos].extend(List)
-                                    break
+                                    self.__flip[self.__possible_moves.index([y1,x1])].extend(List)
                                 if [y1,x1] not in self.__possible_moves:
-                                    self.__possible_moves.append([y1,x1])
-                                    self.__flip.append(List)
-                                    break
+                                    self.__possible_moves.append([y1,x1]),self.__flip.append(List)
+                                break
                             if self.__Board[y1][x1][2] == Color:
                                 break
                             if self.__Board[y1][x1][2] == OppositColor:
@@ -182,13 +164,10 @@ class Game:
                                 break
                             if self.__Board[y1][x][2] == 0:
                                 if [y1,x] in self.__possible_moves:
-                                    pos = self.__possible_moves.index([y1,x])
-                                    self.__flip[pos].extend(List)
-                                    break
+                                    self.__flip[self.__possible_moves.index([y1,x])].extend(List)
                                 if [y1,x] not in self.__possible_moves:
-                                    self.__possible_moves.append([y1,x])
-                                    self.__flip.append(List)
-                                    break
+                                    self.__possible_moves.append([y1,x]),self.__flip.append(List)
+                                break
                             if self.__Board[y1][x][2] == Color:
                                 break
                             if self.__Board[y1][x][2] == OppositColor:
@@ -201,13 +180,10 @@ class Game:
                                 break
                             if self.__Board[y1][x1][2] == 0:
                                 if [y1,x1] in self.__possible_moves:
-                                    pos = self.__possible_moves.index([y1,x1])
-                                    self.__flip[pos].extend(List)
-                                    break
+                                    self.__flip[self.__possible_moves.index([y1,x1])].extend(List)
                                 if [y1,x1] not in self.__possible_moves:
-                                    self.__possible_moves.append([y1,x1])
-                                    self.__flip.append(List)
-                                    break
+                                    self.__possible_moves.append([y1,x1]),self.__flip.append(List)
+                                break
                             if self.__Board[y1][x1][2] == Color:
                                 break
                             if self.__Board[y1][x1][2] == OppositColor:
@@ -299,7 +275,7 @@ class Game:
 
                         if self.__newx == None or self.__newy == None:
                             break
-                        
+
                         self.__hit = [self.__newy,self.__newx]
                         if self.__hit in self.__possible_moves:
                             position = self.__possible_moves.index(self.__hit)
