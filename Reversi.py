@@ -1,5 +1,5 @@
 from pygame import display,init, image, font, event, QUIT, KEYDOWN, K_ESCAPE, K_r,K_p, MOUSEBUTTONDOWN, mouse, time, draw, Rect
-from os import execv, environ, stat, path
+from os import execv, stat, path #,environ
 import sys
 
 class Game:
@@ -20,8 +20,8 @@ class Game:
     
     def Board(self):
         init()
-        Res = display.Info()
-        environ['SDL_VIDEO_WINDOW_POS'] = '%i,%i' % ((Res.current_w/2)-425,(Res.current_h/2)-450)
+        #Res = display.Info()
+        #environ['SDL_VIDEO_WINDOW_POS'] = '%i,%i' % ((Res.current_w/2)-425,(Res.current_h/2)-450) #The window is already in the middle of the screen (need to test this further)
         self.__screen = display.set_mode((850,900))
         self.__Icon = image.load(self.resource_path("assets/Icon.ico"))
         self.__Reversiboard = image.load(self.resource_path("assets/Board.png"))
@@ -39,24 +39,19 @@ class Game:
         self.listen()
 
     def Options(self):
-        try:
-            for i in self.__possible_moves:
-                if i != self.__hit and self.__hit in self.__possible_moves:
-                    blit = self.__Board[i[0]][i[1]][:2]
-                    draw.rect(self.__screen, (41,104,33), Rect(blit[0]-1, blit[1]-1, 92, 92))
-
-        except AttributeError:
-            pass
         self.__backup = self.__possible_moves
         self.possible_moves()
         if self.__backup != self.__possible_moves and self.__possible_moves != []:
+            for i in self.__backup:
+                if i != self.__hit and self.__hit in self.__backup:
+                    blit = self.__Board[i[0]][i[1]][:2]
+                    draw.rect(self.__screen, (41,104,33), Rect(blit[0]-1, blit[1]-1, 92, 92))
             for i in self.__possible_moves:
                 self.__screen.blit(self.__Options,self.__Board[i[0]][i[1]][:2])
         display.flip()
 
     def possible_moves(self):
         self.__possible_moves, self.__flip = [],[]
-
         if self.__player == "white":
             Color, OppositColor = 1,2
         if self.__player == "black":
@@ -223,16 +218,14 @@ class Game:
 
     def Points(self):
         self.__PointsBlack,self.__PointsWhite = 0,0
-        for r in range(8):
-            for s in range(8):
-                if self.__Board[r][s][2] == 1:
+        for y in self.__Board:
+            for x in y:
+                if x[2] == 1:
                     self.__PointsWhite += 1
-                if self.__Board[r][s][2] == 2:
+                if x[2] == 2:
                     self.__PointsBlack += 1
 
-        if self.__PointsWhite >= 2 or self.__PointsBlack >= 2:
-            draw.rect(self.__screen, (32,32,32), Rect(385, 23, 30, 30)), draw.rect(self.__screen, (32,32,32), Rect(435, 23, 30, 30))
-
+        draw.rect(self.__screen, (32,32,32), Rect(385, 23, 30, 30)), draw.rect(self.__screen, (32,32,32), Rect(435, 23, 30, 30))
         if self.__PointsBlack + self.__PointsWhite != 64 and self.__possible_moves != []:
             textPointsBlack = self.__font.render(str(self.__PointsBlack), True, (255,255,255,255))
             textPointsWhite = self.__font.render(str(self.__PointsWhite),True,(255,255,255,255))
@@ -272,18 +265,15 @@ class Game:
 
                 time.wait(400)
                 self.__hit = [self.__possible_moves[index][0],self.__possible_moves[index][1]]
-                for i in self.__possible_moves:
-                    if i == self.__hit:
-                        position = self.__possible_moves.index(self.__hit)
-                        if self.__player == "white":
-                            for z in range(0,len(self.__flip[position]),2):
-                                flip1,flip2 = self.__flip[position][z],self.__flip[position][z+1]
-                                self.__Board[flip1][flip2][2] = 1
-                                self.__screen.blit(self.__White,self.__Board[flip1][flip2][:2])
-                            self.__screen.blit(self.__White,self.__Board[self.__hit[0]][self.__hit[1]][:2])
-                            self.__Board[self.__hit[0]][self.__hit[1]][2],self.__player = 1,"black"
-                            self.Points()
-                            break
+                if self.__hit in self.__possible_moves:
+                    position = self.__possible_moves.index(self.__hit)
+                    for z in range(0,len(self.__flip[position]),2):
+                        flip1,flip2 = self.__flip[position][z],self.__flip[position][z+1]
+                        self.__Board[flip1][flip2][2] = 1
+                        self.__screen.blit(self.__White,self.__Board[flip1][flip2][:2])
+                    self.__screen.blit(self.__White,self.__Board[self.__hit[0]][self.__hit[1]][:2])
+                    self.__Board[self.__hit[0]][self.__hit[1]][2],self.__player = 1,"black"
+                    self.Points()
                 self.Options()
             #---------------------------------<AI's Turn>---------------------------------#
 
@@ -309,20 +299,17 @@ class Game:
 
                         if self.__newx == None or self.__newy == None:
                             break
+                        
                         self.__hit = [self.__newy,self.__newx]
-
-                        for i in self.__possible_moves:
-                            if i == self.__hit:
-                                position = self.__possible_moves.index(self.__hit)
-                                if self.__player == "black":
-                                    for z in range(0,len(self.__flip[position]),2):
-                                        flip1,flip2 = self.__flip[position][z],self.__flip[position][z+1]
-                                        self.__Board[flip1][flip2][2] = 2
-                                        self.__screen.blit(self.__Black,self.__Board[flip1][flip2][:2])
-                                    self.__screen.blit(self.__Black,self.__Board[self.__hit[0]][self.__hit[1]][:2])
-                                    self.__Board[self.__hit[0]][self.__hit[1]][2],self.__player = 2,"white"
-                                    self.Points()
-                                    break
+                        if self.__hit in self.__possible_moves:
+                            position = self.__possible_moves.index(self.__hit)
+                            for z in range(0,len(self.__flip[position]),2):
+                                flip1,flip2 = self.__flip[position][z],self.__flip[position][z+1]
+                                self.__Board[flip1][flip2][2] = 2
+                                self.__screen.blit(self.__Black,self.__Board[flip1][flip2][:2])
+                            self.__screen.blit(self.__Black,self.__Board[self.__hit[0]][self.__hit[1]][:2])
+                            self.__Board[self.__hit[0]][self.__hit[1]][2],self.__player = 2,"white"
+                            self.Points()
                         self.Options()
 
 #-<Main Program>-#
