@@ -223,7 +223,7 @@ class Game:
                     if len(i) > bestMove:
                         bestMove,index = len(i),self.__flip.index(i)
 
-                time.wait(400)
+                time.wait(500)
                 self.__hit = [self.__possible_moves[index][0],self.__possible_moves[index][1]]
                 if self.__hit in self.__possible_moves:
                     position = self.__possible_moves.index(self.__hit)
@@ -272,7 +272,5 @@ class Game:
                             self.Points()
                         self.Options()
 
-#-<Main Program>-#
 if __name__ == "__main__":
     Reversi = Game()
-#-<Main Program>-#
