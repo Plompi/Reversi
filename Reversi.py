@@ -20,6 +20,7 @@ class Game:
     
     def Board(self):
         init()
+        print("test")
         #Res = display.Info()
         #environ['SDL_VIDEO_WINDOW_POS'] = '%i,%i' % ((Res.current_w/2)-425,(Res.current_h/2)-450) #The window is already in the middle of the screen (need to test this further)
         self.__screen = display.set_mode((850,900))
