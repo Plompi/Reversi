@@ -20,7 +20,6 @@ class Game:
     
     def Board(self):
         init()
-        print("test")
         #Res = display.Info()
         #environ['SDL_VIDEO_WINDOW_POS'] = '%i,%i' % ((Res.current_w/2)-425,(Res.current_h/2)-450) #The window is already in the middle of the screen (need to test this further)
         self.__screen = display.set_mode((850,900))
@@ -223,12 +222,8 @@ class Game:
                 for i in self.__flip:
                     if len(i) > bestMove:
                         bestMove,index = len(i),self.__flip.index(i)
-
-<<<<<<< HEAD
+                        
                 time.wait(500)
-=======
-                time.wait(400)
->>>>>>> 4aa8a8e0cb094b9f69d788f537c9fb564140241b
                 self.__hit = [self.__possible_moves[index][0],self.__possible_moves[index][1]]
                 if self.__hit in self.__possible_moves:
                     position = self.__possible_moves.index(self.__hit)
@@ -276,11 +271,8 @@ class Game:
                             self.__Board[self.__hit[0]][self.__hit[1]][2],self.__player = 2,"white"
                             self.Points()
                         self.Options()
-
+                        
+#-<Main Program>-#
 if __name__ == "__main__":
-<<<<<<< HEAD
-    Reversi = Game()
-=======
     Reversi = Game()
 #-<Main Program>-#
->>>>>>> 4aa8a8e0cb094b9f69d788f537c9fb564140241b
