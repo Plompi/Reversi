@@ -6,7 +6,7 @@ class Game:
     def __init__ (self):
         self.__PointsBlack,self.__PointsWhite = 2,2
         self.__possible_moves,self.__Board = [],[]
-        self.__player = "black"
+        self.__player = 2
         for y in range(8):
             self.__Board.append([])
             for x in range(30,830,100):
@@ -25,15 +25,14 @@ class Game:
         self.__screen = display.set_mode((850,900))
         self.__Icon = image.load(self.resource_path("assets/Icon.ico"))
         self.__Reversiboard = image.load(self.resource_path("assets/Board.png"))
-        self.__White = image.load(self.resource_path("assets/Player_White.png"))
-        self.__Black = image.load(self.resource_path("assets/Player_Black.png"))
+        self.__players = [image.load(self.resource_path("assets/Player_White.png")),image.load(self.resource_path("assets/Player_Black.png"))]
         self.__Options = image.load(self.resource_path("assets/Player_Possible_move.png"))
         self.__font = font.Font(self.resource_path('assets/SF-Compact-Rounded-Regular.otf'),24)
         self.__won = self.__font.render("WON",True,(255,255,255,255))
         self.__lost = self.__font.render("LOST",True,(255,255,255,255))
         display.set_caption("Reversi")
         display.set_icon(self.__Icon)
-        self.__screen.blits([(self.__Reversiboard,(0,0)),(self.__White,self.__Board[3][3][:2]),(self.__Black,self.__Board[3][4][:2]),(self.__Black,self.__Board[4][3][:2]),(self.__White,self.__Board[4][4][:2])])
+        self.__screen.blits([(self.__Reversiboard,(0,0)),(self.__players[0],self.__Board[3][3][:2]),(self.__players[1],self.__Board[3][4][:2]),(self.__players[1],self.__Board[4][3][:2]),(self.__players[0],self.__Board[4][4][:2])])
         self.__Board[3][3][2],self.__Board[3][4][2],self.__Board[4][3][2],self.__Board[4][4][2]= 1,2,2,1
         self.Options()
         self.listen()
@@ -52,19 +51,19 @@ class Game:
 
     def possible_moves(self):
         self.__possible_moves, self.__flip = [],[]
-        if self.__player == "white":
-            Color, OppositColor = 1,2
-        if self.__player == "black":
-            Color, OppositColor = 2,1
+        if self.__player == 1:
+            self.__Color, self.__OppositColor = 1,2
+        if self.__player == 2:
+            self.__Color, self.__OppositColor = 2,1
 
         for x in range(8):
             for y in range(8):
-                if self.__Board[y][x][2] == Color:
-                    if y - 1 >= 0 and x - 1 >= 0 and self.__Board[y - 1][x - 1][2] == OppositColor:
+                if self.__Board[y][x][2] == self.__Color:
+                    if y - 1 >= 0 and x - 1 >= 0 and self.__Board[y - 1][x - 1][2] == self.__OppositColor:
                         List = [y - 1, x - 1]
                         for i in range(2,10):
                             y1,x1 = y - i, x - i
-                            if y1 < 0 or x1 < 0 or self.__Board[y1][x1][2] == Color:
+                            if y1 < 0 or x1 < 0 or self.__Board[y1][x1][2] == self.__Color:
                                 break
                             if self.__Board[y1][x1][2] == 0:
                                 if [y1,x1] in self.__possible_moves:
@@ -72,13 +71,13 @@ class Game:
                                 else:
                                     self.__possible_moves.append([y1,x1]),self.__flip.append(List)
                                 break
-                            if self.__Board[y1][x1][2] == OppositColor:
+                            if self.__Board[y1][x1][2] == self.__OppositColor:
                                 List.extend([y1,x1])
-                    if y - 1 >= 0 and x >= 0 and self.__Board[y - 1][x][2] == OppositColor:
+                    if y - 1 >= 0 and x >= 0 and self.__Board[y - 1][x][2] == self.__OppositColor:
                         List = [y - 1, x]
                         for i in range(2,10):
                             y1 = y - i
-                            if y1 < 0 or x < 0 or self.__Board[y1][x][2] == Color:
+                            if y1 < 0 or x < 0 or self.__Board[y1][x][2] == self.__Color:
                                 break
                             if self.__Board[y1][x][2] == 0:
                                 if [y1,x] in self.__possible_moves:
@@ -86,13 +85,13 @@ class Game:
                                 else:
                                     self.__possible_moves.append([y1,x]),self.__flip.append(List)
                                 break
-                            if self.__Board[y1][x][2] == OppositColor:
+                            if self.__Board[y1][x][2] == self.__OppositColor:
                                 List.extend([y1,x])
-                    if y - 1 >= 0 and x + 1 <= 7 and self.__Board[y - 1][x + 1][2] == OppositColor:
+                    if y - 1 >= 0 and x + 1 <= 7 and self.__Board[y - 1][x + 1][2] == self.__OppositColor:
                         List = [y - 1, x + 1]
                         for i in range(2,10):
                             y1,x1 = y - i, x + i
-                            if y1 < 0 or x1 > 7 or self.__Board[y1][x1][2] == Color:
+                            if y1 < 0 or x1 > 7 or self.__Board[y1][x1][2] == self.__Color:
                                 break
                             if self.__Board[y1][x1][2] == 0:
                                 if [y1,x1] in self.__possible_moves:
@@ -100,13 +99,13 @@ class Game:
                                 else:
                                     self.__possible_moves.append([y1,x1]),self.__flip.append(List)
                                 break
-                            if self.__Board[y1][x1][2] == OppositColor:
+                            if self.__Board[y1][x1][2] == self.__OppositColor:
                                 List.extend([y1,x1])
-                    if y >= 0 and x - 1 >= 0 and self.__Board[y][x - 1][2] == OppositColor:
+                    if y >= 0 and x - 1 >= 0 and self.__Board[y][x - 1][2] == self.__OppositColor:
                         List = [y, x - 1]
                         for i in range(2,10):
                             x1 = x - i
-                            if y < 0 or x1 < 0 or self.__Board[y][x1][2] == Color:
+                            if y < 0 or x1 < 0 or self.__Board[y][x1][2] == self.__Color:
                                 break
                             if self.__Board[y][x1][2] == 0:
                                 if [y,x1] in self.__possible_moves:
@@ -114,13 +113,13 @@ class Game:
                                 else:
                                     self.__possible_moves.append([y,x1]),self.__flip.append(List)
                                 break
-                            if self.__Board[y][x1][2] == OppositColor:
+                            if self.__Board[y][x1][2] == self.__OppositColor:
                                 List.extend([y,x1])
-                    if y >= 0 and x + 1 <= 7 and self.__Board[y][x + 1][2] == OppositColor:
+                    if y >= 0 and x + 1 <= 7 and self.__Board[y][x + 1][2] == self.__OppositColor:
                         List = [y, x + 1]
                         for i in range(2,10):
                             x1 = x + i
-                            if y < 0 or x1 > 7 or self.__Board[y][x1][2] == Color:
+                            if y < 0 or x1 > 7 or self.__Board[y][x1][2] == self.__Color:
                                 break
                             if self.__Board[y][x1][2] == 0:
                                 if [y,x1] in self.__possible_moves:
@@ -128,13 +127,13 @@ class Game:
                                 else:
                                     self.__possible_moves.append([y,x1]),self.__flip.append(List)
                                 break
-                            if self.__Board[y][x1][2] == OppositColor:
+                            if self.__Board[y][x1][2] == self.__OppositColor:
                                 List.extend([y,x1])
-                    if y + 1 <= 7 and x - 1 >= 0 and self.__Board[y + 1][x - 1][2] == OppositColor:
+                    if y + 1 <= 7 and x - 1 >= 0 and self.__Board[y + 1][x - 1][2] == self.__OppositColor:
                         List = [y + 1, x - 1]
                         for i in range(2,10):
                             y1,x1 = y + i, x - i
-                            if y1 > 7 or x1 < 0 or self.__Board[y1][x1][2] == Color:
+                            if y1 > 7 or x1 < 0 or self.__Board[y1][x1][2] == self.__Color:
                                 break
                             if self.__Board[y1][x1][2] == 0:
                                 if [y1,x1] in self.__possible_moves:
@@ -142,13 +141,13 @@ class Game:
                                 else:
                                     self.__possible_moves.append([y1,x1]),self.__flip.append(List)
                                 break
-                            if self.__Board[y1][x1][2] == OppositColor:
+                            if self.__Board[y1][x1][2] == self.__OppositColor:
                                 List.extend([y1,x1])
-                    if y + 1 <= 7 and x >= 0 and self.__Board[y + 1][x][2] == OppositColor:
+                    if y + 1 <= 7 and x >= 0 and self.__Board[y + 1][x][2] == self.__OppositColor:
                         List = [y + 1,x]
                         for i in range(2,10):
                             y1 = y + i
-                            if y1 > 7 or x < 0 or self.__Board[y1][x][2] == Color:
+                            if y1 > 7 or x < 0 or self.__Board[y1][x][2] == self.__Color:
                                 break
                             if self.__Board[y1][x][2] == 0:
                                 if [y1,x] in self.__possible_moves:
@@ -156,13 +155,13 @@ class Game:
                                 else:
                                     self.__possible_moves.append([y1,x]),self.__flip.append(List)
                                 break
-                            if self.__Board[y1][x][2] == OppositColor:
+                            if self.__Board[y1][x][2] == self.__OppositColor:
                                 List.extend([y1,x])
-                    if y + 1 <= 7 and x + 1 <= 7 and self.__Board[y + 1][x + 1][2] == OppositColor:
+                    if y + 1 <= 7 and x + 1 <= 7 and self.__Board[y + 1][x + 1][2] == self.__OppositColor:
                         List = [y + 1,x + 1]
                         for i in range(2,10):
                             y1,x1 = y + i, x + i
-                            if y1 > 7 or x1 > 7 or self.__Board[y1][x1][2] == Color:
+                            if y1 > 7 or x1 > 7 or self.__Board[y1][x1][2] == self.__Color:
                                 break
                             if self.__Board[y1][x1][2] == 0:
                                 if [y1,x1] in self.__possible_moves:
@@ -170,7 +169,7 @@ class Game:
                                 else:
                                     self.__possible_moves.append([y1,x1]),self.__flip.append(List)
                                 break
-                            if self.__Board[y1][x1][2] == OppositColor:
+                            if self.__Board[y1][x1][2] == self.__OppositColor:
                                 List.extend([y1,x1])
                                 
         if self.__PointsBlack == 2 and self.__PointsWhite == 2 or self.__possible_moves == []:
@@ -200,44 +199,40 @@ class Game:
 
     def listen(self):
         while True:
-
             if len(self.__possible_moves) == 0:
                 while True:
                     for playerevent in event.get():
-                        if playerevent.type == KEYDOWN and playerevent.key == K_ESCAPE or playerevent.type ==QUIT:
+                        if playerevent.type == KEYDOWN and playerevent.key == K_ESCAPE or playerevent.type == QUIT:
                             sys.exit()
                         if playerevent.type == KEYDOWN and playerevent.key == K_r:
                             execv(sys.executable, ['Reversi.py'] + sys.argv)
-                        if playerevent.type == KEYDOWN and playerevent.key == K_p:
-                            File = open("PointStats.txt","a")
-                            if stat("PointStats.txt").st_size == 0:
-                                File.write("AI:" + str(self.__PointsWhite) + " | PLAYER:" + str(self.__PointsBlack))
-                            else:
-                                File.write("\nAI:" + str(self.__PointsWhite) + " | PLAYER:" + str(self.__PointsBlack))
-                            File.close()
+                        #if playerevent.type == KEYDOWN and playerevent.key == K_p:
+                            #File = open("PointStats.txt","a")
+                            #File.write("\nAI:" + str(self.__PointsWhite) + " | PLAYER:" + str(self.__PointsBlack)) #Only for testpurposes
+                            #File.close()
 
             #---------------------------------<AI's Turn>---------------------------------#
-            if self.__player == "white" and len(self.__possible_moves) > 0:
-                bestMove = 1
-                for i in self.__flip:
-                    if len(i) > bestMove:
-                        bestMove,index = len(i),self.__flip.index(i)
-                        
-                time.wait(500)
-                self.__hit = [self.__possible_moves[index][0],self.__possible_moves[index][1]]
-                if self.__hit in self.__possible_moves:
-                    position = self.__possible_moves.index(self.__hit)
-                    for z in range(0,len(self.__flip[position]),2):
-                        flip1,flip2 = self.__flip[position][z],self.__flip[position][z+1]
-                        self.__Board[flip1][flip2][2] = 1
-                        self.__screen.blit(self.__White,self.__Board[flip1][flip2][:2])
-                    self.__screen.blit(self.__White,self.__Board[self.__hit[0]][self.__hit[1]][:2])
-                    self.__Board[self.__hit[0]][self.__hit[1]][2],self.__player = 1,"black"
-                    self.Points()
-                self.Options()
+            #if self.__player == 1 and len(self.__possible_moves) > 0:
+                #bestMove = 1
+                #for i in self.__flip:
+                    #if len(i) > bestMove:
+                        #bestMove,index = len(i),self.__flip.index(i)
+
+                #time.wait(500)
+                #self.__hit = [self.__possible_moves[index][0],self.__possible_moves[index][1]]
+                #if self.__hit in self.__possible_moves:
+                    #position = self.__possible_moves.index(self.__hit)
+                    #for z in range(0,len(self.__flip[position]),2):
+                        #flip1,flip2 = self.__flip[position][z],self.__flip[position][z+1]
+                        #self.__Board[flip1][flip2][2] = 1
+                        #self.__screen.blit(self.__White,self.__Board[flip1][flip2][:2])
+                    #self.__screen.blit(self.__White,self.__Board[self.__hit[0]][self.__hit[1]][:2])
+                    #self.__Board[self.__hit[0]][self.__hit[1]][2],self.__player = 1,2
+                    #self.Points()
+                #self.Options()
             #---------------------------------<AI's Turn>---------------------------------#
 
-            if self.__player == "black" and len(self.__possible_moves) > 0:
+            if len(self.__possible_moves) > 0:
                 for playerevent in event.get():
                     if playerevent.type == KEYDOWN and playerevent.key == K_ESCAPE or playerevent.type ==QUIT:
                         sys.exit()
@@ -265,13 +260,13 @@ class Game:
                             position = self.__possible_moves.index(self.__hit)
                             for z in range(0,len(self.__flip[position]),2):
                                 flip1,flip2 = self.__flip[position][z],self.__flip[position][z+1]
-                                self.__Board[flip1][flip2][2] = 2
-                                self.__screen.blit(self.__Black,self.__Board[flip1][flip2][:2])
-                            self.__screen.blit(self.__Black,self.__Board[self.__hit[0]][self.__hit[1]][:2])
-                            self.__Board[self.__hit[0]][self.__hit[1]][2],self.__player = 2,"white"
+                                self.__Board[flip1][flip2][2] = self.__Color
+                                self.__screen.blit(self.__players[self.__Color-1],self.__Board[flip1][flip2][:2])
+                            self.__screen.blit(self.__players[self.__Color-1],self.__Board[self.__hit[0]][self.__hit[1]][:2])
+                            self.__Board[self.__hit[0]][self.__hit[1]][2],self.__player = self.__Color, self.__OppositColor
                             self.Points()
                         self.Options()
-                        
+
 #-<Main Program>-#
 if __name__ == "__main__":
     Reversi = Game()
