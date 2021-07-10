@@ -1,5 +1,5 @@
 from pygame import display,init, image, font, event, QUIT, KEYDOWN, K_ESCAPE, K_r,K_p, MOUSEBUTTONDOWN, mouse, time, draw, Rect
-from os import execv, stat, path #,environ
+from os import execv, stat, path
 import sys
 
 class Game:
@@ -7,6 +7,7 @@ class Game:
         self.__PointsBlack,self.__PointsWhite = 2,2
         self.__possible_moves,self.__Board = [],[]
         self.__player = 2
+        self.__AI = True
         for y in range(8):
             self.__Board.append([])
             for x in range(30,830,100):
@@ -20,8 +21,6 @@ class Game:
     
     def Board(self):
         init()
-        #Res = display.Info()
-        #environ['SDL_VIDEO_WINDOW_POS'] = '%i,%i' % ((Res.current_w/2)-425,(Res.current_h/2)-450) #The window is already in the middle of the screen (need to test this further)
         self.__screen = display.set_mode((850,900))
         self.__Icon = image.load(self.resource_path("assets/Icon.ico"))
         self.__Reversiboard = image.load(self.resource_path("assets/Board.png"))
@@ -32,7 +31,7 @@ class Game:
         self.__lost = self.__font.render("LOST",True,(255,255,255,255))
         display.set_caption("Reversi")
         display.set_icon(self.__Icon)
-        self.__screen.blits([(self.__Reversiboard,(0,0)),(self.__players[0],self.__Board[3][3][:2]),(self.__players[1],self.__Board[3][4][:2]),(self.__players[1],self.__Board[4][3][:2]),(self.__players[0],self.__Board[4][4][:2])])
+        self.__screen.blits([(self.__Reversiboard,(0,0)),(self.__players[0],self.__Board[3][3][:2]),(self.__players[1],self.__Board[3][4][:2]),(self.__players[1],self.__Board[4][3][:2]),(self.__players[0],self.__Board[4][4][:2]),(self.__font.render("ROBOT", True, (255,255,255,255)),(755,23))])
         self.__Board[3][3][2],self.__Board[3][4][2],self.__Board[4][3][2],self.__Board[4][4][2]= 1,2,2,1
         self.Options()
         self.listen()
@@ -206,34 +205,73 @@ class Game:
                             sys.exit()
                         if playerevent.type == KEYDOWN and playerevent.key == K_r:
                             execv(sys.executable, ['Reversi.py'] + sys.argv)
-                        #if playerevent.type == KEYDOWN and playerevent.key == K_p:
-                            #File = open("PointStats.txt","a")
-                            #File.write("\nAI:" + str(self.__PointsWhite) + " | PLAYER:" + str(self.__PointsBlack)) #Only for testpurposes
-                            #File.close()
 
             #---------------------------------<AI's Turn>---------------------------------#
-            #if self.__player == 1 and len(self.__possible_moves) > 0:
-                #bestMove = 1
-                #for i in self.__flip:
-                    #if len(i) > bestMove:
-                        #bestMove,index = len(i),self.__flip.index(i)
+            if self.__player == 1 and len(self.__possible_moves) > 0 and self.__AI == True:
+                bestMove = 1
+                for i in self.__flip:
+                    if len(i) > bestMove:
+                        bestMove,index = len(i),self.__flip.index(i)
 
-                #time.wait(500)
-                #self.__hit = [self.__possible_moves[index][0],self.__possible_moves[index][1]]
-                #if self.__hit in self.__possible_moves:
-                    #position = self.__possible_moves.index(self.__hit)
-                    #for z in range(0,len(self.__flip[position]),2):
-                        #flip1,flip2 = self.__flip[position][z],self.__flip[position][z+1]
-                        #self.__Board[flip1][flip2][2] = 1
-                        #self.__screen.blit(self.__White,self.__Board[flip1][flip2][:2])
-                    #self.__screen.blit(self.__White,self.__Board[self.__hit[0]][self.__hit[1]][:2])
-                    #self.__Board[self.__hit[0]][self.__hit[1]][2],self.__player = 1,2
-                    #self.Points()
-                #self.Options()
+                time.wait(500)
+                self.__hit = [self.__possible_moves[index][0],self.__possible_moves[index][1]]
+                if self.__hit in self.__possible_moves:
+                    position = self.__possible_moves.index(self.__hit)
+                    for z in range(0,len(self.__flip[position]),2):
+                        flip1,flip2 = self.__flip[position][z],self.__flip[position][z+1]
+                        self.__Board[flip1][flip2][2] = self.__Color
+                        self.__screen.blit(self.__players[self.__Color-1],self.__Board[flip1][flip2][:2])
+                    self.__screen.blit(self.__players[self.__Color-1],self.__Board[self.__hit[0]][self.__hit[1]][:2])
+                    self.__Board[self.__hit[0]][self.__hit[1]][2],self.__player = self.__Color, self.__OppositColor
+                    self.Points()
+                self.Options()
             #---------------------------------<AI's Turn>---------------------------------#
 
-            if len(self.__possible_moves) > 0:
+            if len(self.__possible_moves) > 0 and self.__player == 2 or (self.__player == 1 and self.__AI == False):
                 for playerevent in event.get():
+                    #--------------------------------------------changeEnemyType----------------------------------------------------#
+                    mousex, mousey = mouse.get_pos()
+                    if mousex >= 755 and mousex <= 824 and mousey >= 28 and mousey <= 46 and self.__AI == True:
+                        draw.rect(self.__screen, (32,32,32),(735,20 , 100, 35))
+                        shadow = self.__font.render("ROBOT", True, (200,200,200,255))
+                        self.__screen.blit(shadow,(755,23))
+                        display.flip()
+                        if playerevent.type == MOUSEBUTTONDOWN and playerevent.button == 1:
+                            self.__AI = False
+                            draw.rect(self.__screen, (32,32,32),(735,20 , 100, 35))
+                            shadow = self.__font.render("HUMAN", True, (200,200,200,255))
+                            self.__screen.blit(shadow,(745,23))
+                            display.flip()
+                        break
+
+                    if mousex >= 744 and mousex <= 824 and mousey >= 28 and mousey <= 46 and self.__AI == False:
+                        draw.rect(self.__screen, (32,32,32),(735,20 , 100, 35))
+                        shadow = self.__font.render("HUMAN", True, (200,200,200,255))
+                        self.__screen.blit(shadow,(745,23))
+                        display.flip()
+                        if playerevent.type == MOUSEBUTTONDOWN and playerevent.button == 1:
+                            self.__AI = True
+                            draw.rect(self.__screen, (32,32,32),(735,20 , 100, 35))
+                            shadow = self.__font.render("ROBOT", True, (200,200,200,255))
+                            self.__screen.blit(shadow,(755,23))
+                            display.flip()
+                        break
+
+                    if (mousex == 750 and (mousey >= 23 and mousey <= 51) or mousex == 829 and (mousey >= 23 and mousey <= 51) or mousey == 23 and (mousex >=750 and mousex <= 829) or mousey == 51 and (mousex >=750 and mousex <= 829)) and self.__AI == True:
+                        draw.rect(self.__screen, (32,32,32),(735,20 , 100, 35))
+                        shadow = self.__font.render("ROBOT", True, (255,255,255,255))
+                        self.__screen.blit(shadow,(755,23))
+                        display.flip()
+                        break
+                    
+                    if (mousex == 742 and (mousey >= 23 and mousey <= 51) or mousex == 829 and (mousey >= 23 and mousey <= 51) or mousey == 23 and (mousex >=750 and mousex <= 829) or mousey == 51 and (mousex >=750 and mousex <= 829)) and self.__AI == False:
+                        draw.rect(self.__screen, (32,32,32),(735,20 , 100, 35))
+                        shadow = self.__font.render("HUMAN", True, (255,255,255,255))
+                        self.__screen.blit(shadow,(745,23))
+                        display.flip()
+                        break 
+                    #--------------------------------------------changeEnemyType----------------------------------------------------#
+
                     if playerevent.type == KEYDOWN and playerevent.key == K_ESCAPE or playerevent.type ==QUIT:
                         sys.exit()
                     if playerevent.type == KEYDOWN and playerevent.key == K_r:
