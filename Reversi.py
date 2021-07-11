@@ -22,16 +22,13 @@ class Game:
     def Board(self):
         init()
         self.__screen = display.set_mode((850,900))
-        self.__Icon = image.load(self.resource_path("assets/Icon.ico"))
-        self.__Reversiboard = image.load(self.resource_path("assets/Board.png"))
         self.__players = [image.load(self.resource_path("assets/Player_White.png")),image.load(self.resource_path("assets/Player_Black.png"))]
         self.__Options = image.load(self.resource_path("assets/Player_Possible_move.png"))
         self.__font = font.Font(self.resource_path('assets/SF-Compact-Rounded-Regular.otf'),24)
-        self.__won = self.__font.render("WON",True,(255,255,255,255))
-        self.__lost = self.__font.render("LOST",True,(255,255,255,255))
+        self.__won,self.__lost = self.__font.render("WON",True,(255,255,255,255)),self.__font.render("LOST",True,(255,255,255,255))
         display.set_caption("Reversi")
-        display.set_icon(self.__Icon)
-        self.__screen.blits([(self.__Reversiboard,(0,0)),(self.__players[0],self.__Board[3][3][:2]),(self.__players[1],self.__Board[3][4][:2]),(self.__players[1],self.__Board[4][3][:2]),(self.__players[0],self.__Board[4][4][:2]),(self.__font.render("ROBOT", True, (255,255,255,255)),(755,23))])
+        display.set_icon(image.load(self.resource_path("assets/Icon.ico")))
+        self.__screen.blits([(image.load(self.resource_path("assets/Board.png")),(0,0)),(self.__players[0],self.__Board[3][3][:2]),(self.__players[1],self.__Board[3][4][:2]),(self.__players[1],self.__Board[4][3][:2]),(self.__players[0],self.__Board[4][4][:2]),(self.__font.render("ROBOT", True, (255,255,255,255)),(755,23))])
         self.__Board[3][3][2],self.__Board[3][4][2],self.__Board[4][3][2],self.__Board[4][4][2]= 1,2,2,1
         self.Options()
         self.listen()
@@ -44,8 +41,9 @@ class Game:
                 if i != self.__hit and self.__hit in self.__backup:
                     blit = self.__Board[i[0]][i[1]][:2]
                     draw.rect(self.__screen, (41,104,33), Rect(blit[0]-1, blit[1]-1, 92, 92))
-            for i in self.__possible_moves:
-                self.__screen.blit(self.__Options,self.__Board[i[0]][i[1]][:2])
+            if self.__player == 2 or (self.__player == 1 and self.__AI == False):
+                for i in self.__possible_moves:
+                    self.__screen.blit(self.__Options,self.__Board[i[0]][i[1]][:2])
         display.flip()
 
     def possible_moves(self):
