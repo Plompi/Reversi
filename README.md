@@ -1,6 +1,5 @@
 <img src="https://github.com/Plompi/Reversi/blob/master/assets/Reversi.png">
 
-# Reversi
 :wave: Hey, this repository contains the files to play my Reversi game, written in python with an built-in AI
 
 ## Setting up (.exe)
