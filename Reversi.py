@@ -22,13 +22,13 @@ class Game:
     def Board(self):
         init()
         self.__screen = display.set_mode((850,900))
-        self.__players = [image.load(self.resource_path("assets/Player_White.png")),image.load(self.resource_path("assets/Player_Black.png"))]
-        self.__Options = image.load(self.resource_path("assets/Player_Possible_move.png"))
-        self.__font = font.Font(self.resource_path('assets/SF-Compact-Rounded-Regular.otf'),24)
+        self.__players = [image.load(self.resource_path("assets/img/Player_White.png")),image.load(self.resource_path("assets/img/Player_Black.png"))]
+        self.__Options = image.load(self.resource_path("assets/img/Player_Possible_move.png"))
+        self.__font = font.Font(self.resource_path('assets/fonts/SF-Compact-Rounded-Regular.otf'),24)
         self.__won,self.__lost = self.__font.render("WON",True,(255,255,255,255)),self.__font.render("LOST",True,(255,255,255,255))
         display.set_caption("Reversi")
-        display.set_icon(image.load(self.resource_path("assets/Icon.ico")))
-        self.__screen.blits([(image.load(self.resource_path("assets/Board.png")),(0,0)),(self.__players[0],self.__Board[3][3][:2]),(self.__players[1],self.__Board[3][4][:2]),(self.__players[1],self.__Board[4][3][:2]),(self.__players[0],self.__Board[4][4][:2]),(self.__font.render("ROBOT", True, (255,255,255,255)),(755,23))])
+        display.set_icon(image.load(self.resource_path("assets/img/Icon.ico")))
+        self.__screen.blits([(image.load(self.resource_path("assets/img/Board.png")),(0,0)),(self.__players[0],self.__Board[3][3][:2]),(self.__players[1],self.__Board[3][4][:2]),(self.__players[1],self.__Board[4][3][:2]),(self.__players[0],self.__Board[4][4][:2]),(self.__font.render("ROBOT", True, (255,255,255,255)),(755,23))])
         self.__Board[3][3][2],self.__Board[3][4][2],self.__Board[4][3][2],self.__Board[4][4][2]= 1,2,2,1
         shadow = self.__font.render("HUMAN", True, (255,255,255,255))
         self.__screen.blit(shadow,(23.7,23))
