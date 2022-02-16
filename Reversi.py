@@ -1,5 +1,5 @@
 from pygame import display,init, image, font, event, QUIT, KEYDOWN, K_ESCAPE, K_r,K_p, MOUSEBUTTONDOWN, mouse, time, draw, Rect
-from os import execv, stat, path
+from os import execv, path
 import sys
 
 class Game:
@@ -30,10 +30,8 @@ class Game:
         display.set_icon(image.load(self.resource_path("assets/Icon.ico")))
         self.__screen.blits([(image.load(self.resource_path("assets/Board.png")),(0,0)),(self.__players[0],self.__Board[3][3][:2]),(self.__players[1],self.__Board[3][4][:2]),(self.__players[1],self.__Board[4][3][:2]),(self.__players[0],self.__Board[4][4][:2]),(self.__font.render("ROBOT", True, (255,255,255,255)),(755,23))])
         self.__Board[3][3][2],self.__Board[3][4][2],self.__Board[4][3][2],self.__Board[4][4][2]= 1,2,2,1
-        
         shadow = self.__font.render("HUMAN", True, (255,255,255,255))
         self.__screen.blit(shadow,(23.7,23))
-
         self.Options()
         self.listen()
 
